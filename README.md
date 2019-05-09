@@ -39,3 +39,5 @@ No issues were found while I tested the program. Please report any issues you ha
 * ~~Error Handling (so typing the wrong thing doesn't break the program)~~ (Added in v1.1)
 * More templates (ex: p5.js sketch with title)
 * Ability to run the program using command line arguments
+
+[Changelog](https://github.com/greenmancode/p5template/blob/master/changelog.md)
