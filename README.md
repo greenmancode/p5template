@@ -29,7 +29,8 @@ To use this program, copy or move `p5template.exe` into the directory you want t
 
 ## Issues
 
-~~Because this is created in Batch, there is no user input error handling so be cautious when entering data. ~~(Fixed)
+~~Because this is created in Batch, there is no user input error handling so be cautious when entering data.~~ (Fixed)
+
 No issues were found while I tested the program. Please report any issues you have so I can fix them.
 
 ## Planned Changes
