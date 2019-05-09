@@ -1,7 +1,29 @@
 # p5template
 A simple tool that makes it easy to setup a p5.js sketch
 
+## Build Instructions
+
+\* Before you follow the build instructions, make sure you have the [Mono C# compiler](https://www.mono-project.com/). Also, if you are using Windows, you can just use a binary from the [releases](https://github.com/greenmancode/p5template/releases) page.
+
+1. Clone the repository
+
+`git clone https://github.com/greenmancode/p5template.git`
+
+2. Navigate to where the source files are located
+
+`cd p5template/p5template/`
+
+3. Compile `Program.cs` using Mono (mcs)
+
+`mcs Program.cs`
+
+4. Run the program using Mono
+
+`mono Program.exe`
+
 ## Usage
+
+Either compile the program yourself or download the latest binary from the [releases](https://github.com/greenmancode/p5template/releases) page.
 
 To use this program, copy or move `p5template.exe` into the directory you want to create your sketch in, and run the program.
 
