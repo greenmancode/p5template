@@ -34,7 +34,7 @@ To use this program, copy or move `p5template.exe` into the directory you want t
 No issues were found while I tested the program. Please report any issues you have so I can fix them.
 
 ## Planned Changes
-* Grabbing the latest CDN links for the libraries
+* ~~Grabbing the latest CDN links for the libraries~~ (Added in v1.2)
 * Library Browser (to find other useful p5.js-related libraries)
 * ~~Error Handling (so typing the wrong thing doesn't break the program)~~ (Added in v1.1)
 * More templates (ex: p5.js sketch with title)
