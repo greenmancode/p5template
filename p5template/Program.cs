@@ -1,7 +1,9 @@
 ﻿using System; //no explanation needed. essential stuff there
 using System.IO; //nice file IO methods that I can use
+using System.Net; //get request
+using System.Text.RegularExpressions; //extracting substrings
 
-//p5template
+//p5template 1.2
 //Created by Greenman 2019
 
 namespace p5template
@@ -13,8 +15,9 @@ namespace p5template
         static int h;
         static bool dlib;
         static bool slib;
-        //future update?
-        //static string outputpath;
+        static string version = "0.8.0"; //latest version as of May 2019
+        //future update? A: yes
+        static string custompath;
 
         static void Main(string[] args)
         {
@@ -22,6 +25,34 @@ namespace p5template
             Console.Title = "p5 Template | Created by Greenman";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+            //start();
+            versioncheck();
+        }
+
+        static void versioncheck() //used to update the version number
+        {
+            WebClient client = new WebClient();
+            string x = "";
+            try
+            {
+                x = client.DownloadString("https://api.cdnjs.com/libraries/p5.js?fields=version");
+            }
+            catch (Exception e)
+            {
+                if (e.GetType().Name == "WebException")
+                {
+                    Console.WriteLine("A network error occured. Please check your internet connection and try again.");
+
+                    Console.WriteLine("\nPress any key to exit");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+            }
+            client.Dispose(); //no memleak
+            var result = Regex.Match(x, @"\d.\d+.\d+"); //pattern for version numbers
+
+            version = result.Groups[0].Value;
+
             start();
         }
 
@@ -33,7 +64,7 @@ namespace p5template
             Console.WriteLine(Environment.CurrentDirectory); //displays current directory without using cmd :)
             Console.WriteLine("Is this the directory you want to create your sketch in?");
             Console.WriteLine("1) Yes");
-            Console.WriteLine("2) No");
+            Console.WriteLine("2) No (choose directory)");
 
             //OLD user input code
             //char op1 = Console.ReadKey().KeyChar; 
@@ -41,7 +72,7 @@ namespace p5template
                 error();
             setsize();*/
 
-            uninput(2, new Action[]{setsize, error}); //user input that handles exceptions and semantic errors :)
+            uninput(2, new Action[]{setsize, customdir}); //user input that handles exceptions and semantic errors :)
         }
 
         static void setsize()
@@ -86,7 +117,6 @@ namespace p5template
             Console.WriteLine("Do you want to include the p5 Sound library?");
             Console.WriteLine("1) Yes");
             Console.WriteLine("2) No");
-            char op4 = Console.ReadKey().KeyChar;
             uninput(2, new Action[] { delegate () { slib = true; }, delegate () { slib = false; } }); //I still don't want to make extra functions
             writeT(); //not a mistake. the above choice does not redirect
         }
@@ -98,31 +128,58 @@ namespace p5template
 
             //these strings look like a mess but it works so I don't care
             String htmlfile;
-            htmlfile = "<html>\n    <head>\n"; 
+            htmlfile = $"<html>\n    <head>\n        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/{version}/p5.min.js\"></script>\n"; 
             if (dlib)
             {
-                htmlfile += "        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js\"></script>\n"; 
+                htmlfile += $"        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/{version}/addons/p5.dom.min.js\"></script>\n"; 
             }
             if (slib)
             {
-                htmlfile += "        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.js\"></script>\n";
+                htmlfile += $"        <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/{version}/addons/p5.sound.min.js\"></script>\n";
             }
             htmlfile += "        <script src=\"sketch.js\"></script>\n    </head>\n</html>";
-            File.WriteAllText("index.html",htmlfile);
-
+            try
+            {
+                File.WriteAllText(custompath + "index.html", htmlfile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occured while creating the file.");
+                Console.WriteLine("Possible causes:");
+                Console.WriteLine("- The target directory was deleted");
+                Console.WriteLine("- You don't have write access in the specified directory");
+                Console.WriteLine("- A file with the name 'index.html' or 'sketch.js' exists and is currently opened");
+                Console.WriteLine("\nPress any key to exit");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
             Console.WriteLine("Finished HTML file!");
 
             String sketchfile;
             sketchfile = $"function setup(){{\n    createCanvas({w},{h});\n}}\n\nfunction draw(){{\n    background(0);\n}}"; //template literal strings are nice
-            File.WriteAllText("sketch.js", sketchfile);
+            try
+            {
+                File.WriteAllText(custompath + "sketch.js", sketchfile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occured while creating the file.");
+                Console.WriteLine("Possible causes:");
+                Console.WriteLine("- The target directory was deleted");
+                Console.WriteLine("- You don't have write access in the specified directory");
+                Console.WriteLine("- A file with the name 'index.html' or 'sketch.js' exists and is currently opened");
+                Console.WriteLine("\nPress any key to exit");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
 
             Console.WriteLine("Finished JS file!");
-
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
             Environment.Exit(0);
         }
 
+        //uninput means user number input
         static void uninput(int opts, Action[] callbacks) //used to handle user input without throwing exceptions and deals with semantic errors
         {
             //check to match options to callbacks
@@ -136,7 +193,7 @@ namespace p5template
                     {
                          i = Convert.ToInt32(Convert.ToString(Console.ReadKey().KeyChar)); //char -> string -> int because char -> int results in ASCII stuff
                     }
-                    catch (FormatException e)
+                    catch
                     {
                         continue; //skip next check because it requires an int and a string will break it
                     }
@@ -150,14 +207,61 @@ namespace p5template
             }
         }
 
-        static void error() //this will probably be removed once I add directory support
+        static void customdir() //this will probably be removed once I add directory support
         {
+            bool relativep = false;
             Console.Clear();
-            Console.WriteLine("Place this program into the directory you want your files to be created in.");
-            Console.WriteLine("");
-            Console.WriteLine("Press any key to exit");
-            Console.ReadKey();
-            Environment.Exit(0);
+            Console.WriteLine("Is the directory you want to use a relative path or an absolute path?");
+            Console.WriteLine("1) Absolute");
+            Console.WriteLine("2) Relative");
+            uninput(2, new Action[] { delegate { relativep = false; }, delegate { relativep = true;  } });
+            Console.Clear();
+            Console.WriteLine("Please type the path you want to place the files into.");
+            if (relativep)
+                Console.Write("Relative Path: ");
+            if (!relativep)
+                Console.Write("Absolute Path: ");
+            string tempcpath = Console.ReadLine();
+
+            if (tempcpath.Contains("/"))
+            {
+                tempcpath = tempcpath.Replace("/", "\\");
+            }
+
+            if (relativep)
+            {
+                tempcpath = Environment.CurrentDirectory + "\\" + tempcpath + "\\";
+                tempcpath = tempcpath.Replace("\\\\", "\\");
+                if (Directory.Exists(tempcpath))
+                {
+                    custompath = tempcpath;
+                    Console.WriteLine(custompath);
+                    Console.ReadKey();
+                } else
+                {
+                    Console.WriteLine("Directory does not exist!");
+                    Console.WriteLine("\nPress any key to continue");
+                    Console.ReadKey();
+                    customdir();
+                }
+            } else
+            {
+                tempcpath = tempcpath.Replace("\\\\", "\\");
+                if (Directory.Exists(tempcpath))
+                {
+                    custompath = tempcpath + "\\";
+                    Console.WriteLine(custompath);
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Directory does not exist!");
+                    Console.WriteLine("\nPress any key to continue");
+                    Console.ReadKey();
+                    customdir();
+                }
+            }
+            setsize();
         }
     }
 }

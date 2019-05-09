@@ -1,0 +1,10 @@
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\obj\Debug\p5template.csprojAssemblyReference.cache
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\obj\Debug\p5template.csproj.CoreCompileInputs.cache
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\bin\Debug\p5template.exe.config
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\bin\Debug\p5template.exe
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\bin\Debug\p5template.pdb
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\obj\Debug\p5template.exe
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\obj\Debug\p5template.pdb
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Brandon\Documents\Visual Studio 2017\Projects\p5template\p5template\obj\Debug\p5template.csproj.CopyComplete
