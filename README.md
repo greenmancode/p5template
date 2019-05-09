@@ -25,7 +25,7 @@ A simple tool that makes it easy to setup a p5.js sketch
 
 Either compile the program yourself or download the latest binary from the [releases](https://github.com/greenmancode/p5template/releases) page.
 
-To use this program, copy or move `p5template.exe` into the directory you want to create your sketch in, and run the program.
+To use this program on Windows, just run it normally. If you compiled the program on a non-Windows OS, use Mono to run the program.
 
 ## Issues
 
