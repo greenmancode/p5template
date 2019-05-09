@@ -36,6 +36,6 @@ No issues were found while I tested the program. Please report any issues you ha
 ## Planned Changes
 * Grabbing the latest CDN links for the libraries
 * Library Browser (to find other useful p5.js-related libraries)
-* Error Handling (so typing the wrong thing doesn't break the program)
+* ~~Error Handling (so typing the wrong thing doesn't break the program)~~ (Added in v1.1)
 * More templates (ex: p5.js sketch with title)
 * Ability to run the program using command line arguments
